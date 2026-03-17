@@ -6,9 +6,9 @@
 <style>
 body {
   margin:0;
+  font-family:Arial;
   background:#121212;
   color:white;
-  font-family:Arial;
   display:flex;
 }
 
@@ -20,20 +20,56 @@ body {
   padding:20px;
 }
 
+.sidebar h2 {
+  color:#1DB954;
+}
+
+/* MAIN */
 .main {
   flex:1;
   padding:20px;
 }
 
+/* SONG */
 .song {
   background:#181818;
-  padding:10px;
+  padding:12px;
   margin:10px 0;
+  border-radius:8px;
   cursor:pointer;
 }
 
 .song:hover {
   background:#1DB954;
+}
+
+/* ARTIST */
+.artist {
+  text-align:center;
+}
+
+.artist img {
+  width:150px;
+  border-radius:50%;
+  box-shadow:0 0 20px #1DB954;
+}
+
+/* ALBUMS */
+.albums {
+  display:flex;
+  gap:15px;
+  flex-wrap:wrap;
+}
+
+.album {
+  background:#181818;
+  padding:10px;
+  border-radius:10px;
+}
+
+.album img {
+  width:120px;
+  border-radius:10px;
 }
 
 /* PLAYER */
@@ -43,39 +79,144 @@ body {
   width:100%;
   background:black;
   padding:10px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+/* BUTTON */
+button {
+  background:#1DB954;
+  border:none;
+  padding:8px 15px;
+  color:white;
+  border-radius:20px;
 }
 </style>
 </head>
 
 <body>
 
+<!-- SIDEBAR -->
 <div class="sidebar">
 <h2>Cedar 🎵</h2>
 <p>Home</p>
 <p>Albums</p>
+<p>Support</p>
 </div>
 
+<!-- MAIN -->
 <div class="main">
+
 <h1>Cedar Music World</h1>
+
+<div class="artist">
+<img src="cover.jpg">
+<h3>Cedar Boy</h3>
+</div>
+
+<hr>
+
+<h3>🎵 Playlist</h3>
 
 <div class="song" onclick="playSong('song.mp3')">▶ Cedar Boy</div>
 <div class="song" onclick="playSong('song2.mp3')">▶ Another Song</div>
 
-<br><br><br>
+<hr>
+
+<h3>📀 Albums</h3>
+
+<div class="albums">
+<div class="album">
+<img src="cover.jpg">
+<p>Album 1</p>
 </div>
 
+<div class="album">
+<img src="cover2.jpg">
+<p>Album 2</p>
+</div>
+
+<div class="album">
+<img src="cover3.jpg">
+<p>Album 3</p>
+</div>
+</div>
+
+<hr>
+
+<!-- LIKE -->
+<button onclick="like()">❤️ Like (<span id="likeCount">0</span>)</button>
+
+<hr>
+
+<!-- COMMENTS -->
+<h3>💬 Comments</h3>
+<input type="text" id="commentInput" placeholder="Write comment...">
+<button onclick="addComment()">Post</button>
+<div id="comments"></div>
+
+<br><br><br>
+
+</div>
+
+<!-- PLAYER -->
 <div class="player">
 <span id="nowPlaying">No song</span>
+
 <audio id="audio" controls></audio>
+
+<button onclick="showPayment()">Donate</button>
 </div>
 
 <script>
 let audio = document.getElementById("audio");
 
+// PLAY SONG
 function playSong(song){
   audio.src = song;
   audio.play();
   document.getElementById("nowPlaying").innerText = "Playing: " + song;
+}
+
+// ❤️ LIKE (SAVE)
+let likes = localStorage.getItem("likes") || 0;
+document.getElementById("likeCount").innerText = likes;
+
+function like(){
+  likes++;
+  localStorage.setItem("likes", likes);
+  document.getElementById("likeCount").innerText = likes;
+}
+
+// 💬 COMMENTS (SAVE)
+function addComment(){
+  let input = document.getElementById("commentInput");
+  let comments = JSON.parse(localStorage.getItem("comments")) || [];
+
+  if(input.value !== ""){
+    comments.push(input.value);
+    localStorage.setItem("comments", JSON.stringify(comments));
+    displayComments();
+    input.value="";
+  }
+}
+
+function displayComments(){
+  let comments = JSON.parse(localStorage.getItem("comments")) || [];
+  let div = document.getElementById("comments");
+
+  div.innerHTML="";
+  comments.forEach(c=>{
+    div.innerHTML += "<p>💬 "+c+"</p>";
+  });
+}
+
+displayComments();
+
+// 💰 PAYMENT (SAFE)
+function showPayment(){
+  alert("Send to OPay:\nName: Cedar Boy\nNumber: 9029118284");
 }
 </script>
 
