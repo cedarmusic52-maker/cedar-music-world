@@ -1,17 +1,69 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Cedar Music World</title>
+  <title>Cedar Music World</title>
 </head>
 
-<body style="background:black;color:white;text-align:center">
+<body style="background:black; color:white; text-align:center; font-family:sans-serif;">
 
-<h1>🎵 Cedar Music World 🎵</h1>
-<p>Welcome to my music website</p>
+  <h1>🎵 Cedar Music World 🎵</h1>
 
-<audio controls>
-<source src="song.mp3" type="audio/mpeg">
-</audio>
+  <!-- ARTIST TOP SECTION -->
+  <img src="cover.jpg" width="200" style="border-radius:10px;">
+  <h2>Cedar Boy 🎶</h2>
+  <p>Artist: Cedar</p>
+
+  <!-- FOLLOW + LIKE (TOP) -->
+  <button onclick="follow()">➕ Follow</button>
+  <button onclick="like()">❤️ Like (<span id="likes">0</span>)</button>
+
+  <hr>
+
+  <!-- PLAYER -->
+  <audio id="player" controls>
+    <source src="song.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- FOLLOW + LIKE (SECOND PLACE) -->
+  <br><br>
+  <button onclick="follow()">➕ Follow</button>
+  <button onclick="like()">❤️ Like (<span id="likes2">0</span>)</button>
+
+  <hr>
+
+  <!-- COMMENTS -->
+  <h3>💬 Comments</h3>
+
+  <input id="commentInput" placeholder="Write a comment..." style="width:70%;">
+  <button onclick="addComment()">Post</button>
+
+  <div id="comments"></div>
+
+  <script>
+    let likeCount = 0;
+
+    function like() {
+      likeCount++;
+      document.getElementById("likes").innerText = likeCount;
+      document.getElementById("likes2").innerText = likeCount;
+    }
+
+    function follow() {
+      alert("You are now following Cedar 🎤");
+    }
+
+    function addComment() {
+      let input = document.getElementById("commentInput");
+      let commentText = input.value;
+
+      if(commentText !== "") {
+        let div = document.createElement("p");
+        div.innerText = commentText;
+        document.getElementById("comments").appendChild(div);
+        input.value = "";
+      }
+    }
+  </script>
 
 </body>
 </html>
