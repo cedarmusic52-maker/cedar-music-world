@@ -2,57 +2,99 @@
 <html>
 <head>
     <title>Cedar Music World</title>
-</head>
-    <style>
-body {
-    background: linear-gradient(to bottom, #121212, #000);
-    color: white;
-    text-align: center;
-    font-family: Arial;
-}
 
-h1 {
-    color: #1DB954;
-}
-
-button {
-    background: #1DB954;
-    border: none;
-    padding: 10px;
-    margin: 5px;
-    border-radius: 20px;
-    color: white;
-    font-weight: bold;
-}
-
-button:hover {
-    background: #1ed760;
-}
-
-.socials a {
-    color: white;
-    font-size: 24px;
-    margin: 10px;
-    transition: 0.3s;
-}
-
-.socials a:hover {
-    color: #1DB954;
-    text-shadow: 0 0 10px #1DB954;
-}
-    </style>
+    <!-- ICONS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
-<body style="background:black; color:white; text-align:center; font-family:Arial;">
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial;
+            background: linear-gradient(to bottom, #121212, #000);
+            color: white;
+            text-align: center;
+        }
 
-    <h1>🎵 Cedar Music World 🎵</h1>
+        h1 {
+            color: #1DB954;
+        }
 
-    <!-- ARTIST SECTION -->
-    <img src="cover.jpg" width="200" style="border-radius:50%; box-shadow:0 0 10px white;">
-    <h2>Cedar Boy 🎶</h2>
-    <p>Artist: Cedar</p>
-    <!-- SOCIAL MEDIA LINKS -->
-    <!-- SOCIAL ICONS -->
+        .artist-img {
+            width: 200px;
+            border-radius: 50%;
+            margin-top: 20px;
+            box-shadow: 0 0 20px #1DB954;
+        }
+
+        .socials a {
+            color: white;
+            font-size: 25px;
+            margin: 10px;
+            transition: 0.3s;
+        }
+
+        .socials a:hover {
+            color: #1DB954;
+            text-shadow: 0 0 10px #1DB954;
+        }
+
+        button {
+            background: #1DB954;
+            border: none;
+            padding: 10px 15px;
+            margin: 5px;
+            border-radius: 20px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #1ed760;
+        }
+
+        .playlist button {
+            display: block;
+            width: 80%;
+            margin: 10px auto;
+        }
+
+        .albums {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .album {
+            background: #181818;
+            padding: 10px;
+            border-radius: 10px;
+        }
+
+        .album img {
+            width: 120px;
+            border-radius: 10px;
+        }
+
+        input {
+            padding: 8px;
+            width: 60%;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<h1>🎵 Cedar Music World 🎵</h1>
+
+<!-- ARTIST -->
+<img src="cover.jpg" class="artist-img">
+<h2>Cedar Boy 🎶</h2>
+<p>Artist: Cedar</p>
+
+<!-- SOCIALS -->
 <div class="socials">
     <a href="https://instagram.com/cedarboy" target="_blank"><i class="fab fa-instagram"></i></a>
     <a href="https://facebook.com/cedarboy" target="_blank"><i class="fab fa-facebook"></i></a>
@@ -61,73 +103,6 @@ button:hover {
     <a href="https://youtube.com/@cedarboy" target="_blank"><i class="fab fa-youtube"></i></a>
 </div>
 
-    <!-- MUSIC PLAYER -->
-    <audio controls>
-        <source src="song.mp3" type="audio/mpeg">
-    </audio>
-
-    <br><br>
-
-    <!-- FOLLOW & LIKE (BOTTOM) -->
-    <button onclick="follow()">➕ Follow</button>
-    <button onclick="like()">❤️ Like (<span id="likeCount2">0</span>)</button>
-
-    <hr>
-    
-
-    <!-- COMMENTS -->
-    <h3>💬 Comments</h3>
-    <input type="text" id="commentInput" placeholder="Write a comment...">
-    <button onclick="addComment()">Post</button>
-
-    <div id="comments"></div>
-
-    <script>
-        let likes = 0;
-
-        function like() {
-            likes++;
-            document.getElementById("likeCount").innerText = likes;
-            document.getElementById("likeCount2").innerText = likes;
-        }
-
-        function follow() {
-            alert("You followed Cedar Boy!");
-        }
-
-        function addComment() {
-            let input = document.getElementById("commentInput");
-            let comment = input.value;
-
-            if(comment !== "") {
-                let div = document.getElementById("comments");
-                let p = document.createElement("p");
-                p.innerText = comment;
-                div.appendChild(p);
-                input.value = "";
-            }
-        }
-    </script>
-
-</body>
-    <body>
-
-<h1>🎵 Cedar Music World 🎵</h1>
-
-<!-- ARTIST -->
-<img src="cover.jpg" width="200" style="border-radius:50%;">
-<h2>Cedar Boy 🎶</h2>
-<p>Artist: Cedar</p>
-
-<!-- SOCIAL ICONS -->
-<div class="socials">
-    <a href="#"><i class="fab fa-instagram"></i></a>
-    <a href="#"><i class="fab fa-facebook"></i></a>
-    <a href="#"><i class="fab fa-twitter"></i></a>
-    <a href="#"><i class="fab fa-tiktok"></i></a>
-    <a href="#"><i class="fab fa-youtube"></i></a>
-</div>
-
 <hr>
 
 <!-- PLAYER -->
@@ -137,14 +112,14 @@ button:hover {
 
 <br><br>
 
-<label>🔊 Volume</label>
+<label>🔊 Volume</label><br>
 <input type="range" min="0" max="1" step="0.1" onchange="setVolume(this.value)">
 
 <hr>
 
 <!-- PLAYLIST -->
 <h3>🎵 Playlist</h3>
-<div>
+<div class="playlist">
     <button onclick="playSong('song.mp3')">▶ Cedar Boy</button>
     <button onclick="playSong('song2.mp3')">▶ Another Song</button>
 </div>
@@ -153,20 +128,35 @@ button:hover {
 
 <!-- ALBUMS -->
 <h3>📀 Albums</h3>
-<div style="display:flex; justify-content:center; gap:10px;">
-    <div>
-        <img src="cover.jpg" width="120">
+<div class="albums">
+    <div class="album">
+        <img src="cover.jpg">
         <p>Album 1</p>
     </div>
-    <div>
-        <img src="cover2.jpg" width="120">
+    <div class="album">
+        <img src="cover2.jpg">
         <p>Album 2</p>
     </div>
-    <div>
-        <img src="cover3.jpg" width="120">
+    <div class="album">
+        <img src="cover3.jpg">
         <p>Album 3</p>
     </div>
 </div>
+
+<hr>
+
+<!-- LIKE & FOLLOW -->
+<button onclick="follow()">+ Follow</button>
+<button onclick="like()">❤️ Like (<span id="likeCount">0</span>)</button>
+
+<hr>
+
+<!-- COMMENTS -->
+<h3>💬 Comments</h3>
+<input type="text" id="commentInput" placeholder="Write a comment...">
+<button onclick="addComment()">Post</button>
+
+<div id="comments"></div>
 
 <hr>
 
@@ -175,6 +165,17 @@ button:hover {
 <button onclick="support()">Donate</button>
 
 <script>
+let likes = 0;
+
+function like() {
+    likes++;
+    document.getElementById("likeCount").innerText = likes;
+}
+
+function follow() {
+    alert("You followed Cedar!");
+}
+
 function playSong(song) {
     let player = document.getElementById("player");
     player.src = song;
@@ -185,83 +186,15 @@ function setVolume(value) {
     document.getElementById("player").volume = value;
 }
 
-function support() {
-    alert("Payment system coming soon!");
-}
-</script>
-</body><body><body>
+function addComment() {
+    let input = document.getElementById("commentInput");
+    let comment = input.value;
 
-<h1>🎵 Cedar Music World 🎵</h1>
-
-<!-- ARTIST -->
-<img src="cover.jpg" width="200" style="border-radius:50%;">
-<h2>Cedar Boy 🎶</h2>
-<p>Artist: Cedar</p>
-
-<!-- SOCIAL ICONS -->
-<div class="socials">
-    <a href="#"><i class="fab fa-instagram"></i></a>
-    <a href="#"><i class="fab fa-facebook"></i></a>
-    <a href="#"><i class="fab fa-twitter"></i></a>
-    <a href="#"><i class="fab fa-tiktok"></i></a>
-    <a href="#"><i class="fab fa-youtube"></i></a>
-</div>
-
-<hr>
-
-<!-- PLAYER -->
-<audio id="player" controls>
-    <source src="song.mp3" type="audio/mpeg">
-</audio>
-
-<br><br>
-
-<label>🔊 Volume</label>
-<input type="range" min="0" max="1" step="0.1" onchange="setVolume(this.value)">
-
-<hr>
-
-<!-- PLAYLIST -->
-<h3>🎵 Playlist</h3>
-<div>
-    <button onclick="playSong('song.mp3')">▶ Cedar Boy</button>
-    <button onclick="playSong('song2.mp3')">▶ Another Song</button>
-</div>
-
-<hr>
-
-<!-- ALBUMS -->
-<h3>📀 Albums</h3>
-<div style="display:flex; justify-content:center; gap:10px;">
-    <div>
-        <img src="cover.jpg" width="120">
-        <p>Album 1</p>
-    </div>
-    <div>
-        <img src="cover2.jpg" width="120">
-        <p>Album 2</p>
-    </div>
-    <div>
-        <img src="cover3.jpg" width="120">
-        <p>Album 3</p>
-    </div>
-</div>
-
-<hr>
-
-<!-- MONETIZATION -->
-<h3>💰 Support Artist</h3>
-<button onclick="support()">Donate</button>
-
-<script>
-function playSong(song) {
-    let player = document.getElementById("player");
-    player.src = song;
-    player.play();
-}
-
-function setVolume(value) {
-    document.getElementById("player").volume = value;
+    if (comment !== "") {
+        let div = document.getElementById("comments");
+        div.innerHTML += "<p>💬 " + comment + "</p>";
+        input.value = "";
+    }
 }
 
 function support() {
@@ -270,84 +203,4 @@ function support() {
 </script>
 
 </body>
-
-<h1>🎵 Cedar Music World 🎵</h1>
-
-<!-- ARTIST -->
-<img src="cover.jpg" width="200" style="border-radius:50%;">
-<h2>Cedar Boy 🎶</h2>
-<p>Artist: Cedar</p>
-
-<!-- SOCIAL ICONS -->
-<div class="socials">
-    <a href="#"><i class="fab fa-instagram"></i></a>
-    <a href="#"><i class="fab fa-facebook"></i></a>
-    <a href="#"><i class="fab fa-twitter"></i></a>
-    <a href="#"><i class="fab fa-tiktok"></i></a>
-    <a href="#"><i class="fab fa-youtube"></i></a>
-</div>
-
-<hr>
-
-<!-- PLAYER -->
-<audio id="player" controls>
-    <source src="song.mp3" type="audio/mpeg">
-</audio>
-
-<br><br>
-
-<label>🔊 Volume</label>
-<input type="range" min="0" max="1" step="0.1" onchange="setVolume(this.value)">
-
-<hr>
-
-<!-- PLAYLIST -->
-<h3>🎵 Playlist</h3>
-<div>
-    <button onclick="playSong('song.mp3')">▶ Cedar Boy</button>
-    <button onclick="playSong('song2.mp3')">▶ Another Song</button>
-</div>
-
-<hr>
-
-<!-- ALBUMS -->
-<h3>📀 Albums</h3>
-<div style="display:flex; justify-content:center; gap:10px;">
-    <div>
-        <img src="cover.jpg" width="120">
-        <p>Album 1</p>
-    </div>
-    <div>
-        <img src="cover2.jpg" width="120">
-        <p>Album 2</p>
-    </div>
-    <div>
-        <img src="cover3.jpg" width="120">
-        <p>Album 3</p>
-    </div>
-</div>
-
-<hr>
-
-<!-- MONETIZATION -->
-<h3>💰 Support Artist</h3>
-<button onclick="support()">Donate</button>
-
-<script>
-function playSong(song) {
-    let player = document.getElementById("player");
-    player.src = song;
-    player.play();
-}
-
-function setVolume(value) {
-    document.getElementById("player").volume = value;
-}
-
-function support() {
-    alert("Payment system coming soon!");
-}
-</script>
-
-</body>
-</html>
+                                                                                                 </html>
