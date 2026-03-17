@@ -1,69 +1,78 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Cedar Music World</title>
+    <title>Cedar Music World</title>
 </head>
 
-<body style="background:black; color:white; text-align:center; font-family:sans-serif;">
+<body style="background:black; color:white; text-align:center; font-family:Arial;">
 
-  <h1>🎵 Cedar Music World 🎵</h1>
+    <h1>🎵 Cedar Music World 🎵</h1>
 
-  <!-- ARTIST TOP SECTION -->
-  <img src="cover.jpg" width="200" style="border-radius:10px;">
-  <h2>Cedar Boy 🎶</h2>
-  <p>Artist: Cedar</p>
+    <!-- ARTIST SECTION -->
+    <img src="cover.jpg" width="200" style="border-radius:50%; box-shadow:0 0 10px white;">
+    <h2>Cedar Boy 🎶</h2>
+    <p>Artist: Cedar</p>
 
-  <!-- FOLLOW + LIKE (TOP) -->
-  <button onclick="follow()">➕ Follow</button>
-  <button onclick="like()">❤️ Like (<span id="likes">0</span>)</button>
+    <!-- FOLLOW & LIKE (TOP) -->
+    <button onclick="follow()">➕ Follow</button>
+    <button onclick="like()">❤️ Like (<span id="likeCount">0</span>)</button>
 
-  <hr>
+    <hr>
 
-  <!-- PLAYER -->
-  <audio id="player" controls>
-    <source src="song.mp3" type="audio/mpeg">
-  </audio>
+    <!-- MUSIC PLAYER -->
+    <audio controls>
+        <source src="song.mp3" type="audio/mpeg">
+    </audio>
 
-  <!-- FOLLOW + LIKE (SECOND PLACE) -->
-  <br><br>
-  <button onclick="follow()">➕ Follow</button>
-  <button onclick="like()">❤️ Like (<span id="likes2">0</span>)</button>
+    <br><br>
 
-  <hr>
+    <!-- FOLLOW & LIKE (BOTTOM) -->
+    <button onclick="follow()">➕ Follow</button>
+    <button onclick="like()">❤️ Like (<span id="likeCount2">0</span>)</button>
 
-  <!-- COMMENTS -->
-  <h3>💬 Comments</h3>
+    <hr>
 
-  <input id="commentInput" placeholder="Write a comment..." style="width:70%;">
-  <button onclick="addComment()">Post</button>
+    <!-- COMMENTS -->
+    <h3>💬 Comments</h3>
+    <input type="text" id="commentInput" placeholder="Write a comment...">
+    <button onclick="addComment()">Post</button>
 
-  <div id="comments"></div>
+    <div id="comments"></div>
 
-  <script>
-    let likeCount = 0;
+    <script>
+        let likes = 0;
 
-    function like() {
-      likeCount++;
-      document.getElementById("likes").innerText = likeCount;
-      document.getElementById("likes2").innerText = likeCount;
-    }
+        function like() {
+            likes++;
+            document.getElementById("likeCount").innerText = likes;
+            document.getElementById("likeCount2").innerText = likes;
+        }
 
-    function follow() {
-      alert("You are now following Cedar 🎤");
-    }
+        function follow() {
+            alert("You followed Cedar Boy!");
+        }
 
-    function addComment() {
-      let input = document.getElementById("commentInput");
-      let commentText = input.value;
+        function addComment() {
+            let input = document.getElementById("commentInput");
+            let comment = input.value;
 
-      if(commentText !== "") {
-        let div = document.createElement("p");
-        div.innerText = commentText;
-        document.getElementById("comments").appendChild(div);
-        input.value = "";
-      }
-    }
-  </script>
+            if(comment !== "") {
+                let div = document.getElementById("comments");
+                let p = document.createElement("p");
+                p.innerText = comment;
+                div.appendChild(p);
+                input.value = "";
+            }
+        }
+    </script>
 
 </body>
-</html>
+</html>￼Enter
+<!-- SOCIAL MEDIA LINKS -->
+<div style="margin:10px;">
+    <a href="https://instagram.com/" target="_blank" style="color:white; margin:5px;">📸 Instagram</a>
+    <a href="https://facebook.com/" target="_blank" style="color:white; margin:5px;">📘 Facebook</a>
+    <a href="https://twitter.com/" target="_blank" style="color:white; margin:5px;">🐦 Twitter</a>
+    <a href="https://tiktok.com/" target="_blank" style="color:white; margin:5px;">🎵 TikTok</a>
+    <a href="https://youtube.com/" target="_blank" style="color:white; margin:5px;">▶️ YouTube</a>
+</div>
