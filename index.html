@@ -171,13 +171,15 @@ button {
 
 <script>
 let audio = document.getElementById("audio");
-
-// PLAY SONG
 function playSong(song){
-  audio.src = song;
-  audio.play();
+  audio.pause();          // stop current song
+  audio.currentTime = 0;  // reset time
+
+  audio.src = song;       // load new song
+  audio.play();           // play new one
+
   document.getElementById("nowPlaying").innerText = "Playing: " + song;
-}
+  }
 
 // ❤️ LIKE (SAVE)
 let likes = localStorage.getItem("likes") || 0;
