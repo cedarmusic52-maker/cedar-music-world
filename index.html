@@ -2,187 +2,86 @@
 <html>
 <head>
 <title>Cedar Music World</title>
-
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
 <style>
 body {
-    margin: 0;
-    font-family: Arial;
-    background: linear-gradient(to bottom, #121212, #000);
-    color: white;
-    text-align: center;
+  margin:0;
+  font-family:Arial;
+  background:#121212;
+  color:white;
+  text-align:center;
 }
 
-h1 { color: #1DB954; }
-
-.artist-img {
-    width: 200px;
-    border-radius: 50%;
-    margin-top: 20px;
-    box-shadow: 0 0 20px #1DB954;
-}
-
-.socials a {
-    color: white;
-    font-size: 25px;
-    margin: 10px;
+#lockScreen {
+  position:fixed;
+  width:100%;
+  height:100%;
+  background:black;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+  z-index:9999;
 }
 
 button {
-    background: #1DB954;
-    border: none;
-    padding: 10px;
-    border-radius: 20px;
-    color: white;
+  background:#1DB954;
+  border:none;
+  padding:10px;
+  color:white;
+  margin:5px;
 }
 
-.playlist button {
-    display: block;
-    width: 80%;
-    margin: 10px auto;
-}
-
-.albums {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-}
-
-.album img {
-    width: 120px;
-    border-radius: 10px;
-}
-
-/* LOCK SCREEN */
-#lockScreen {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: black;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  z-index: 9999;
+.artist-img {
+  width:200px;
+  border-radius:50%;
 }
 </style>
 </head>
 
 <body>
 
-<!-- 🔒 LOCK SCREEN -->
 <div id="lockScreen">
-  <h2>Enter Access Code</h2>
-  <input type="password" id="passwordInput">
-  <button onclick="unlockSite()">Enter</button>
+<h2>Enter Code</h2>
+<input type="password" id="passwordInput">
+<button onclick="unlockSite()">Enter</button>
 </div>
 
-<h1>🎵 Cedar Music World 🎵</h1>
+<h1>Cedar Music World</h1>
 
 <img src="cover.jpg" class="artist-img">
-<h2>Cedar Boy 🎶</h2>
-
-<div class="socials">
-<i class="fab fa-instagram"></i>
-<i class="fab fa-facebook"></i>
-<i class="fab fa-tiktok"></i>
-<i class="fab fa-youtube"></i>
-</div>
-
-<hr>
 
 <audio id="player" controls>
-<source src="song.mp3" type="audio/mpeg">
+<source src="song.mp3">
 </audio>
 
 <br><br>
-<input type="range" min="0" max="1" step="0.1" onchange="setVolume(this.value)">
 
-<hr>
+<button onclick="playSong('song.mp3')">Play Song</button>
 
-<h3>Playlist</h3>
-<div class="playlist">
-<button onclick="playSong('song.mp3')">Cedar Boy</button>
-<button onclick="playSong('song2.mp3')">Another Song</button>
-</div>
-
-<hr>
-
-<h3>Albums</h3>
-<div class="albums">
-<div class="album"><img src="cover.jpg"></div>
-<div class="album"><img src="cover2.jpg"></div>
-<div class="album"><img src="cover3.jpg"></div>
-</div>
-
-<hr>
-
-<button onclick="follow()">Follow</button>
-<button onclick="like()">Like (<span id="likeCount">0</span>)</button>
-
-<hr>
-
-<h3>Comments</h3>
-<input type="text" id="commentInput">
-<button onclick="addComment()">Post</button>
-<div id="comments"></div>
-
-<hr>
-
-<h3>Support</h3>
 <button onclick="showPayment()">Donate</button>
 
-<!-- ✅ ALL JAVASCRIPT HERE -->
 <script>
-
-function unlockSite() {
-  let password = document.getElementById("passwordInput").value;
-
-  if (password === "June199621") {
-    document.getElementById("lockScreen").style.display = "none";
+function unlockSite(){
+  let p = document.getElementById("passwordInput").value;
+  if(p==="1234"){
+    document.getElementById("lockScreen").style.display="none";
   } else {
-    alert("Wrong code!");
+    alert("Wrong code");
   }
 }
 
-let likes = 0;
-
-function like() {
-  likes++;
-  document.getElementById("likeCount").innerText = likes;
-}
-
-function follow() {
-  alert("You followed Cedar!");
-}
-
-function playSong(song) {
-  let player = document.getElementById("player");
-  player.src = song;
+function playSong(song){
+  let player=document.getElementById("player");
+  player.src=song;
   player.play();
 }
 
-function setVolume(value) {
-  document.getElementById("player").volume = value;
+function showPayment(){
+  alert("Send to OPay: 9029118284");
 }
-
-function addComment() {
-  let input = document.getElementById("commentInput");
-
-  if (input.value !== "") {
-    document.getElementById("comments").innerHTML += "<p>" + input.value + "</p>";
-    input.value = "";
-  }
-}
-
-function showPayment() {
-  alert("Send money to:\nName: Cedar Boy\nOPay: 9029118284");
-}
-
 </script>
 
 </body>
-    </html>
+</html>￼Enter
