@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Cedar Music Admin 🎵</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body { margin:0; font-family:Arial; background:#121212; color:white;}
+    .header { padding:15px; background:black; }
+    .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:10px; padding:10px;}
+    .card { background:#181818; padding:10px; border-radius:10px;}
+    button { background:#1db954; border:none; padding:8px; width:100%; margin-top:5px;}
+    input { padding:8px; width:90%; margin:5px;}
+    .player { position:fixed; bottom:0; width:100%; background:black; padding:10px;}
+    #payBox {
+      position:fixed;
+      top:0; left:0;
+      width:100%; height:100%;
+      background:rgba(0,0,0,0.9);
+      display:none;
+      justify-content:center;
+      align-items:center;
+    }
+    .payContent {
+      background:#181818;
+      padding:20px;
+      border-radius:10px;
+      text-align:center;
+    }
+  </style>
+</head>
+
+<body>
+
+<div id="auth">
+  <h2>Login / Signup</h2>
+  <input id="email" placeholder="Email"><br>
+  <input id="password" type="password"><br>
+  <button onclick="signup()">Signup</button>
+  <button onclick="login()">Login</button>
+</div>
+
+<div id="app" style="display:none">
+
+<div class="header">🎵 Cedar Music</div>
+
+<h3>Upload Song</h3>
+<input type="file" id="file">
+<input id="title" placeholder="Song title">
+<select id="type">
+  <option value="free">Free</option>
+  <option value="premium">Premium</option>
+</select>
+<button onclick="upload()">Upload</button>
+
+<h3>🎵 Songs</h3>
+<div class="grid" id="songs"></div>
+
+</div>
+
+<div class="player">
+  <audio id="player" controls></audio>
+</div>
+
+<!-- PAYMENT -->
+<div id="payBox">
+  <div class="payContent">
+    <h3>💰 Subscription ₦500</h3>
+
+    <p>OPay: 9029118284</p>
+    <p>Zenith Bank: 2217146986</p>
+    <p>Name: Elijah Etim Okon</p>
+
+    <input id="code" placeholder="Enter code">
+    <button onclick="verifyCode()">Unlock</button>
+  </div>
+</div>
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } 
+from "https://www.gstatic.com/firebasejs/12.10.0/firebase-auth.js";
+
+import { getFirestore, collection, addDoc, onSnapshot, doc, setDoc, getDoc, deleteDoc } 
+from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
+
+import { getStorage, ref, uploadBytes, getDownloadURL } 
+from "https://www.gstatic.com/firebasejs/12.10.0/firebase-storage.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBLqx3YScnzghC-wRIb8kpQJFgaO3UKPxc",
+  authDomain: "cedar-music-206b4.firebaseapp.com",
+  projectId: "cedar-music-206b4",
+  storageBucket: "cedar-music-206b4.firebasestorage.app",
+  messagingSenderId: "555016069120",
+  appId: "1:555016069120:web:4cc7f0e2b280de4e79b8e5"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth();
+const db = getFirestore();
+const storage = getStorage();
+
+let currentUser = null;
+
+/* 🔑 SET ADMIN EMAIL */
+const ADMIN_EMAIL = "youremail@gmail.com";
+
+/* AUTH */
+window.signup = () => createUserWithEmailAndPassword(auth,email.value,password.value);
+window.login = () => signInWithEmailAndPassword(auth,email.value,password.value);
+
+onAuthStateChanged(auth, user=>{
+  currentUser = user;
+  authDiv.style.display = user ? "none":"block";
+  app.style.display = user ? "block":"none";
+});
+
+/* UPLOAD */
+window.upload = async ()=>{
+  let f = file.files[0];
+  let storageRef = ref(storage, f.name);
+
+  await uploadBytes(storageRef, f);
+  let url = await getDownloadURL(storageRef);
+
+  await addDoc(collection(db,"songs"),{
+    title: title.value,
+    url: url,
+    type: type.value
+  });
+};
+
+/* LOAD SONGS */
+onSnapshot(collection(db,"songs"), snap=>{
+  songs.innerHTML="";
+
+  snap.forEach(docSnap=>{
+    let d = docSnap.data();
+    let id = docSnap.id;
+
+    songs.innerHTML += `
+      <div class="card">
+        <p>${d.title}</p>
+
+        <button onclick="playSong('${d.url}','${d.type}')">
+          ${d.type === "premium" ? "🔒 Premium" : "▶ Play"}
+        </button>
+
+        ${currentUser && currentUser.email === ADMIN_EMAIL ? 
+          `<button onclick="deleteSong('${id}')">🗑 Delete</button>` : ""}
+      </div>
+    `;
+  });
+});
+
+/* DELETE (ADMIN ONLY) */
+window.deleteSong = async (id)=>{
+  await deleteDoc(doc(db,"songs",id));
+};
+
+/* PLAY */
+window.playSong = async (url,type)=>{
+  if(type === "premium"){
+    let refUser = doc(db,"users",currentUser.uid);
+    let userData = await getDoc(refUser);
+
+    if(userData.exists() && userData.data().subscribed){
+      play(url);
+    } else {
+      payBox.style.display="flex";
+    }
+  } else {
+    play(url);
+  }
+};
+
+window.play = (url)=>{
+  player.src = url;
+  player.play();
+};
+
+/* VERIFY */
+window.verifyCode = async ()=>{
+  if(code.value === "cedar500"){
+    await setDoc(doc(db,"users",currentUser.uid),{
+      subscribed:true
+    });
+
+    alert("Unlocked 🎉");
+    payBox.style.display="none";
+  } else {
+    alert("Wrong code");
+  }
+};
+
+</script>
+
+</body>
+  </html>￼Enter
